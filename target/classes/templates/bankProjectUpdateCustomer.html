@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Müşteri Arama ve Güncelleme</title>
+    <link rel="stylesheet" href="bankProjectUpdateCustomer.css">
+</head>
+
+<body>
+
+    <h2>Arama ve Güncelleme</h2>
+
+    <form action="/search/{tc}" method="post">
+        <label for="searchTc">Arama Yapmak İstediğiniz Müşteri Tc'sini Giriniz:</label>
+        <input type="text" id="searchTc" name="searchTc" required>
+        <button type="submit">Ara</button>
+    </form>
+
+    <div th:if="${customer != null}">
+        <h3>Müşteri Bilgileri</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>TC</th>
+                    <th>Cinsiyet</th>
+                    <th>Adres</th>
+                    <!-- Diğer müşteri bilgileri -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${customer.customerName}"></td>
+                    <td th:text="${customer.customerSurname}"></td>
+                    <td th:text="${customer.customerTc}"></td>
+                    <td th:text="${customer.customerGender}"></td>
+                    <td th:text="${customer.customerAddress}" class="multiline"></td>
+                    <!-- Diğer müşteri bilgileri -->
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Müşteri Güncelleme</h2>
+
+        <form action="/update" method="post" th:object="${customer}">
+            <input type="hidden" th:name="searchTc" th:value="${searchTc}">
+
+            <label for="name">Müşteri İsmi:</label>
+            <input type="text" id="name" name="customerName" th:field="*{customerName}"
+                th:value="${customer.customerName}" required>
+
+            <label for="surname">Müşteri Soyadı:</label>
+            <input type="text" id="surname" name="customerSurname" th:field="*{customerSurname}"
+                th:value="${customer.customerSurname}" required>
+
+            <label for="tc">Müşteri Tc'si:</label>
+            <input type="text" id="tc" name="customerTc" th:field="*{customerTc}" th:value="${customer.customerTc}"
+                required>
+
+            <label for="gender">Cinsiyet:</label>
+            <select id="gender" name="customerGender" th:field="*{customerGender}"
+                th:value="${customer.customerGender}">
+                <option value="Male">Erkek</option>
+                <option value="Female">Kadın</option>
+            </select>
+
+            <label for="address">Adres:</label>
+            <input type="text" id="address" name="customerAddress" th:field="*{customerAddress}"
+                th:value="${customer.customerAddress}" required>
+
+            <!-- Diğer müşteri bilgileri -->
+
+            <button type="submit">Güncelle</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

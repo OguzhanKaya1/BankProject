@@ -1,0 +1,48 @@
+.generalDiv{
+    width: 60%;
+    height: 500px;
+    background-color: rgb(236, 235, 243);
+    display: inline-block;
+}
+.customerDiv{
+	cursor: pointer;
+    width: 38%;
+    height: 400px;
+    background-color: #fff;
+    display: inline-block;
+    margin-left: 4%;
+    margin-top: 5%;
+    margin-right: 6%;
+    border: 2px solid white;
+    border-radius: 7px;
+    background-image: url(/Musteri\ Ekleme.png);
+    background-size: cover;
+    background-position: center;
+}
+.customerDivBackground{
+    position: absolute;
+    z-index: -1;
+    top: 0px;
+}
+.creditDiv{
+	cursor: pointer;
+    width: 38%;
+    height: 400px;
+    background-color: #fff;
+    display: inline-block;
+    border: 2px solid white;
+    border-radius: 7px;
+    background-image: url(/Kredi\ Ekleme.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.anaEkranParagraf{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #C41E3A;
+    font-style: normal;
+    margin-top: 5%
+}

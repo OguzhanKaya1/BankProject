@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Project</title>
+    <link rel="stylesheet" href="bankProjectGetAllCustomers.css">
+</head>
+<body>
+    <table border="1" cellpadding="10">
+        <caption> Müşteri Listesi </caption>
+        <tr>
+            <th>Sıra</th>
+            <th>İsim</th>
+            <th>Soy isim</th>
+            <th>TC</th>
+            <th>Cinsiyet</th>
+            <th>Adres</th>
+            <th>Aktif Krediler</th>
+        </tr>
+
+        <tr th:each="customerHtml , iterStat : ${getAllCustomers}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${customerHtml.getAllCustomer.customerName}"></td>
+            <td th:text="${customerHtml.getAllCustomer.customerSurname}"></td>
+            <td th:text="${customerHtml.getAllCustomer.customerTc}"></td>
+            <td th:text="${customerHtml.getAllCustomer.customerGender}"></td>
+            <td th:text="${customerHtml.getAllCustomer.customerAddress}" class="multiline"></td>
+            <td th:text="${customerHtml.creditStatusCount}"></td>
+
+        </tr>
+    </table>
+    
+            <div class="pagination">
+        <ul>
+    <li th:unless="${currentPage == 0}">
+        <a th:href="@{/bankProjectGetAllCustomers.html?page=0}"><<</a>
+    </li>
+    <li th:unless="${currentPage == 0}">
+        <a th:href="@{/bankProjectGetAllCustomers.html(page=${currentPage - 1})}"><</a>
+    </li>
+    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:href="@{/bankProjectGetAllCustomers.html(page=${i}, size=10)}" th:text="${i + 1}" th:class="${currentPage == i} ? 'active' : ''"></a>
+    </li>
+    <li th:unless="${currentPage == totalPages - 1}">
+        <a th:href="@{/bankProjectGetAllCustomers.html(page=${currentPage + 1})}">></a>
+    </li>
+    <li th:unless="${currentPage == totalPages - 1}">
+        <a th:href="@{/bankProjectGetAllCustomers.html(page=${totalPages - 1})}">>></a>
+    </li>
+</ul>
+    </div>
+    
+</body>
+</html>
