@@ -4,13 +4,15 @@ import org.springframework.stereotype.Service;
 
 import bank.project.dataAccess.abstracts.CustomerRepository;
 import bank.project.entities.concretes.Customer;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class BusinessRulesManager implements BusinessRulesService {
 
 	private CustomerRepository customerRepository;
+
+	public BusinessRulesManager(CustomerRepository customerRepository) {
+		this.customerRepository = customerRepository;
+	}
 
 	public Customer checkCustomerByTc(String searchTc) {
 		if (this.customerRepository.findByCustomerTc(searchTc) != null) {
@@ -20,6 +22,17 @@ public class BusinessRulesManager implements BusinessRulesService {
 		} else {
 			throw new RuntimeException("Tc Eşleşmedi");
 		}
+	}
+
+	private String savedName = null;
+
+	public String saveCustomerName(String customerName) {
+
+		if (customerName != null) {
+			savedName = customerName;
+		}
+
+		return savedName;
 	}
 
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Gelen Müşteriler</title>
+<link rel="stylesheet" href="bankProjectSearchCustomer.css"
+	th:href="@{/bankProjectSearchCustomer.css}">
+
+</head>
+<body>
+	<div th:if="${customer != null}">
+
+		<table border="1" class="custom-table">
+			<caption>Müşteri Listesi</caption>
+			<tr>
+				<th>Sıra</th>
+				<th>İsim</th>
+				<th>Soy isim</th>
+				<th>TC</th>
+				<th>Cinsiyet</th>
+				<th>Adres</th>
+			</tr>
+
+			<tr th:each="customerHtml , iterStat : ${customer}">
+				<td th:text="${iterStat.index + 1}"></td>
+				<td th:text="${customerHtml.foundedCustomerBySurname.customerName}"></td>
+				<td
+					th:text="${customerHtml.foundedCustomerBySurname.customerSurname}"></td>
+				<td th:text="${customerHtml.foundedCustomerBySurname.customerTc}"></td>
+				<td
+					th:text="${customerHtml.foundedCustomerBySurname.customerGender}"></td>
+				<td
+					th:text="${customerHtml.foundedCustomerBySurname.customerAddress}"
+					class="multiline"></td>
+			</tr>
+		</table>
+
+		<div class="pagination">
+			<ul>
+				<li th:unless="${currentPage == 0}"><a
+					th:href="@{/searchBySurname(page=0)}"><<</a></li>
+				<li th:unless="${currentPage == 0}"><a
+					th:href="@{/searchBySurname(page=${currentPage - 1})}"><</a></li>
+				<li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"><a
+					th:href="@{/searchBySurname(page=${i}, size=10)}"
+					th:text="${i + 1}" th:class="${currentPage == i} ? 'active' : ''"></a>
+				</li>
+				<li th:unless="${currentPage == totalPages - 1}"><a
+					th:href="@{/searchBySurname(page=${currentPage + 1})}">></a></li>
+				<li th:unless="${currentPage == totalPages - 1}"><a
+					th:href="@{/searchBySurname(page=${totalPages - 1})}">>></a></li>
+			</ul>
+		</div>
+	</div>
+	<br>
+	<a href="bankProjectSearchCustomer.html" style="text-decoration: none;">
+		<div>
+			<span>Arama Sayfasına Dön</span>
+		</div>
+	</a>
+</body>
+</html>

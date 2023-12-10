@@ -1,22 +1,30 @@
 package bank.project.webApi.controllers;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import bank.project.business.abstracts.CustomerService;
 import bank.project.business.requests.CreateCustomerRequest;
 import bank.project.business.requests.UpdateCustomerRequest;
 import bank.project.business.responses.GetAllCustomerResponseWithStatusCount;
+import bank.project.business.responses.GetCustomerByNameResponse;
+import bank.project.business.responses.GetCustomerBySurnameResponse;
 import bank.project.business.responses.GetCustomerByTc;
+import bank.project.business.responses.GetCustomerByTcResponse;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
+@SessionAttributes({ "searchByCustomerName", "searchByCustomerSurname", "searchByCustomerTc" })
 public class CustomerController {
 
 	private CustomerService customerService;
@@ -77,9 +85,82 @@ public class CustomerController {
 		this.customerService.updateCustomer(updateCustomerRequest, searchTc);
 		return "bankProjectUpdateCustomer.html";
 	}
-	// Update Metodu Bitişi
 
-	// Müşteri Getir Ekranı Başlangıç
+	@GetMapping("/bankProjectSearchCustomer.html")
+	public String searchCustomer() {
+		return "bankProjectSearchCustomer.html";
+	}
 
+	// Search İşlemi Başlangıcı
+	@PostMapping("/searchByCustomerName")
+	public String searchByCustomerName(@RequestBody String searchByCustomerName, Model model) {
+		model.addAttribute("searchByCustomerName", searchByCustomerName);
+		return "redirect:/searchByName";
+	}
+
+	@GetMapping("/searchByName")
+	public String getCustomerByName(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+			SessionStatus sessionStatus) {
+		String searchByCustomerName = (String) model.getAttribute("searchByCustomerName");
+		int size = 10;
+		Page<GetCustomerByNameResponse> foundedCustomers = this.customerService.getCustomerByName(searchByCustomerName,
+				PageRequest.of(page, size));
+
+		model.addAttribute("customer", foundedCustomers.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", foundedCustomers.getTotalPages());
+
+		return "bankProjectShowSearchedCustomerByName.html";
+	}
+
+	@PostMapping("/searchByCustomerSurname")
+	public String searchByCustomerSurname(@RequestBody String searchByCustomerSurname, Model model) {
+		model.addAttribute("searchByCustomerSurname", searchByCustomerSurname);
+		return "redirect:/searchBySurname";
+	}
+
+	@GetMapping("/searchBySurname")
+	public String getCustomerBySurname(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+			SessionStatus sessionStatus) {
+		String searchByCustomerSurname = (String) model.getAttribute("searchByCustomerSurname");
+		int size = 10;
+		Page<GetCustomerBySurnameResponse> foundedCustomers = this.customerService
+				.getCustomerBySurname(searchByCustomerSurname, PageRequest.of(page, size));
+
+		model.addAttribute("customer", foundedCustomers.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", foundedCustomers.getTotalPages());
+
+		return "bankProjectShowSearchedCustomerBySurname.html";
+	}
+
+	@PostMapping("/searchByCustomerTc")
+	public String searchByCustomerTc(@RequestBody String searchByCustomerTc, Model model) {
+		model.addAttribute("searchByCustomerTc", searchByCustomerTc);
+		return "redirect:/searchByTc";
+	}
+
+	@GetMapping("/searchByTc")
+	public String getCustomerByTc(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+			SessionStatus sessionStatus) {
+		String searchByCustomerTc = (String) model.getAttribute("searchByCustomerTc");
+		int size = 10;
+		Page<GetCustomerByTcResponse> foundedCustomers = this.customerService.getCustomerByTc(searchByCustomerTc,
+				PageRequest.of(page, size));
+
+		model.addAttribute("customer", foundedCustomers.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", foundedCustomers.getTotalPages());
+
+		return "bankProjectShowSearchedCustomerByTc.html";
+	}
+
+	// Search İşlemi Bitişi
+	
+	
+	
+	
+	
+	
 
 }

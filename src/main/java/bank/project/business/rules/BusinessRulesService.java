@@ -6,4 +6,6 @@ public interface BusinessRulesService {
 
 	Customer checkCustomerByTc(String Tc);
 
+	String saveCustomerName(String customerName);
+
 }

@@ -6,11 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import bank.project.business.responses.GetAllCustomerResponseWithStatusCount;
-import bank.project.business.responses.GetCustomerByName;
-import bank.project.business.responses.GetCustomerBySurname;
-import bank.project.business.responses.GetCustomerByTc;
 import bank.project.entities.concretes.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
@@ -24,9 +22,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 			+ "(SELECT COUNT(cr) FROM c.credits cr WHERE cr.creditStatus = 'active')) " + "FROM Customer c")
 	Page<GetAllCustomerResponseWithStatusCount> findAllCustomersWithStatusCount(Pageable pageable);
 
-	Page<GetCustomerByName> findByCustomerName(String customerName, Pageable pageable);
+	Page<Customer> findBycustomerNameContaining(String customerName, Pageable pageable);
 
-	Page<GetCustomerBySurname> findByCustomerSurname(String customerSurname, Pageable pageable);
+	Page<Customer> findBycustomerSurnameContaining(String customerSurname, Pageable pageable);
 
-	Page<GetCustomerByTc> findByCustomerTcEquals(String customerTc, Pageable pageable);
+	Page<Customer> findBycustomerTcEquals(String customerTc, Pageable pageable);
+
+	@Query("Select c From Customer c LEFT JOIN FETCH c.credits WHERE c.id=id ")
+	Customer findCustomerWithCredits(@Param("id") int id);
 }

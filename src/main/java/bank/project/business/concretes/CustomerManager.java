@@ -9,9 +9,11 @@ import bank.project.business.abstracts.CustomerService;
 import bank.project.business.requests.CreateCustomerRequest;
 import bank.project.business.requests.UpdateCustomerRequest;
 import bank.project.business.responses.GetAllCustomerResponseWithStatusCount;
-import bank.project.business.responses.GetCustomerByName;
-import bank.project.business.responses.GetCustomerBySurname;
+import bank.project.business.responses.GetCustomerByNameResponse;
+import bank.project.business.responses.GetCustomerBySurnameResponse;
 import bank.project.business.responses.GetCustomerByTc;
+import bank.project.business.responses.GetCustomerByTcResponse;
+import bank.project.business.responses.GetCustomerDetails;
 import bank.project.core.utilities.mappers.ModelMapperService;
 import bank.project.dataAccess.abstracts.CustomerRepository;
 import bank.project.entities.concretes.Customer;
@@ -58,22 +60,33 @@ public class CustomerManager implements CustomerService {
 	}
 
 	@Override
-	public Page<GetCustomerByName> getCustomerByName(int page, int size, String customerName) {
-		Pageable pageable = PageRequest.of(page, size);
-		return this.customerRepository.findByCustomerName(customerName, pageable);
+	public Page<GetCustomerByNameResponse> getCustomerByName(String customerName, Pageable pageable) {
+
+		Page<Customer> customers = this.customerRepository.findBycustomerNameContaining(customerName, pageable);
+		Page<GetCustomerByNameResponse> response = customers.map(customer -> new GetCustomerByNameResponse(customer));
+		return response;
 	}
 
 	@Override
-	public Page<GetCustomerBySurname> getCustomerBySurname(int page, int size, String customerSurname) {
-		Pageable pageable = PageRequest.of(page, size);
-		return this.customerRepository.findByCustomerSurname(customerSurname, pageable);
+	public Page<GetCustomerBySurnameResponse> getCustomerBySurname(String customerSurname, Pageable pageable) {
+		Page<Customer> customers = this.customerRepository.findBycustomerSurnameContaining(customerSurname, pageable);
+		Page<GetCustomerBySurnameResponse> response = customers
+				.map(customer -> new GetCustomerBySurnameResponse(customer));
+		return response;
 	}
 
 	@Override
-	public Page<GetCustomerByTc> getCustomerByTc(int page, int size, String customerTc) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<GetCustomerByTc> returnedCustomers = this.customerRepository.findByCustomerTcEquals(customerTc, pageable);
-		return returnedCustomers;
+	public Page<GetCustomerByTcResponse> getCustomerByTc(String customerTc, Pageable pageable) {
+		Page<Customer> customers = this.customerRepository.findBycustomerTcEquals(customerTc, pageable);
+		Page<GetCustomerByTcResponse> response = customers.map(customer -> new GetCustomerByTcResponse(customer));
+		return response;
+	}
+
+	@Override
+	public GetCustomerDetails getCustomerDetails(int id) {
+
+		Customer customer = this.customerRepository.findCustomerWithCredits(id);
+		return new GetCustomerDetails(customer, customer.getCredits());
 	}
 
 }

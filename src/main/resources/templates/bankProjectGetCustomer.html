@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Customer Search</title>
+</head>
+<body>
+
+	<h2>Customer Search</h2>
+
+	<form th:action="@{/customers}" method="get">
+		<label>Name: <input type="text" name="name" th:value="${name}"></label>
+		<button type="submit">Search by Name</button>
+	</form>
+
+	<table border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>TC Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="customer : ${customers.content}">
+				<td th:text="${customer.foundedCustomerByName.customerName}"></td>
+				<td th:text="${customer.foundedCustomerByName.customerSurname}"></td>
+				<td th:text="${customer.foundedCustomerByName.customerTc}"></td>
+				<td th:text="${customer.foundedCustomerByName.customerAddress}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div>
+		<span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+        <span>
+            <a th:if="${currentPage > 0}" th:href="@{/customers(page=0)}">first</a>
+            <span th:if="${currentPage > 0}"> | </span>
+        </span>
+        <span>
+            <a th:if="${currentPage > 0}" th:href="@{/customers(page=${currentPage - 1})}">previous</a>
+            <span th:if="${currentPage > 0}"> | </span>
+        </span>
+        <span>
+            <a th:if="${currentPage < totalPages - 1}" th:href="@{/customers(page=${currentPage + 1})}">next</a>
+            <span th:if="${currentPage < totalPages - 1}"> | </span>
+        </span>
+        <span>
+            <a th:if="${currentPage < totalPages - 1}" th:href="@{/customers(page=${totalPages - 1})}">last</a>
+        </span>
+	</div>
+
+
+</body>
+</html>

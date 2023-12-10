@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Search Page</title>
+<link rel="stylesheet" href="bankProjectSearchCustomer.css"
+	th:href="@{/bankProjectSearchCustomer.css}">
+
+</head>
+
+<body>
+
+	<h2>Arama ve Güncelleme</h2>
+	<form action="/searchByCustomerName" method="post">
+		<label for="searchByCustomerName">Arama Yapmak İstediğiniz
+			Müşteri İsmini Giriniz:</label> <input type="text" id="searchByCustomerName"
+			name="searchByCustomerName" required>
+		<button type="submit">Ara</button>
+	</form>
+
+	<h2>Arama ve Güncelleme</h2>
+	<form action="/searchByCustomerSurname" method="post">
+		<label for="searchByCustomerSurname">Arama Yapmak İstediğiniz
+			Müşteri Soyismini Giriniz:</label> <input type="text"
+			id="searchByCustomerSurname" name="searchByCustomerSurname" required>
+		<button type="submit">Ara</button>
+	</form>
+
+	<h2>Arama ve Güncelleme</h2>
+	<form action="/searchByCustomerTc" method="post">
+		<label for="searchByCustomerTc">Arama Yapmak İstediğiniz
+			Müşteri Tc'sini Giriniz:</label> <input type="text" id="searchByCustomerTc"
+			name="searchByCustomerTc" required>
+		<button type="submit">Ara</button>
+	</form>
+
+</body>
+</html>
