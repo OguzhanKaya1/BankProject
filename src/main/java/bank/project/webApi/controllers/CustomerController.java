@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -17,8 +18,8 @@ import bank.project.business.requests.UpdateCustomerRequest;
 import bank.project.business.responses.GetAllCustomerResponseWithStatusCount;
 import bank.project.business.responses.GetCustomerByNameResponse;
 import bank.project.business.responses.GetCustomerBySurnameResponse;
-import bank.project.business.responses.GetCustomerByTc;
 import bank.project.business.responses.GetCustomerByTcResponse;
+import bank.project.business.responses.GetCustomerDetailsResponse;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
 
@@ -72,26 +73,12 @@ public class CustomerController {
 		return "bankProjectUpdateCustomer";
 	}
 
-	// Update Metodu
-	@PostMapping("/search/{tc}")
-	public String searchCustomer(Model model, String searchTc) {
-		GetCustomerByTc foundedCustomer = this.customerService.findByCustomerTc(searchTc);
-		model.addAttribute("customer", foundedCustomer);
-		return "bankProjectUpdateCustomer";
-	}
-
-	@PostMapping("/update")
-	public String updateCustomer(@ModelAttribute UpdateCustomerRequest updateCustomerRequest, String searchTc) {
-		this.customerService.updateCustomer(updateCustomerRequest, searchTc);
-		return "bankProjectUpdateCustomer.html";
-	}
-
+	// Search Metodu Başlangıcı
 	@GetMapping("/bankProjectSearchCustomer.html")
 	public String searchCustomer() {
 		return "bankProjectSearchCustomer.html";
 	}
 
-	// Search İşlemi Başlangıcı
 	@PostMapping("/searchByCustomerName")
 	public String searchByCustomerName(@RequestBody String searchByCustomerName, Model model) {
 		model.addAttribute("searchByCustomerName", searchByCustomerName);
@@ -154,13 +141,36 @@ public class CustomerController {
 
 		return "bankProjectShowSearchedCustomerByTc.html";
 	}
+	// Search Metodu Bitişi
 
-	// Search İşlemi Bitişi
-	
-	
-	
-	
-	
-	
+	// CustomerDetils Metodu
+	@GetMapping("/customerDetails/{customerId}")
+	public String showCustomerDetails(@PathVariable int customerId, Model model) {
+
+		GetCustomerDetailsResponse detailsResponse = this.customerService.customerDetailsResponse(customerId);
+		model.addAttribute("customer", detailsResponse.getCustomerDetails());
+		model.addAttribute("credits", detailsResponse.getCreditsDetails());
+		model.addAttribute("updateCustomerRequest", new UpdateCustomerRequest());
+
+		return "bankProjectShowCustomerDetails.html";
+	}
+	// Customer Details Metodu Bitişi
+
+	// Customer Update Metodu
+	@PostMapping("/updateCustomer")
+	public String updateCustomer(@ModelAttribute("updateCustomerRequest") UpdateCustomerRequest updateCustomerRequest) {
+		this.customerService.updateCustomer(updateCustomerRequest);
+		return "redirect:/customerDetails/" + updateCustomerRequest.getUpdateCustomer().getId();
+	}
 
 }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//

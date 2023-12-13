@@ -29,8 +29,18 @@
 				<td th:text="${customerHtml.foundedCustomerByName.customerGender}"></td>
 				<td th:text="${customerHtml.foundedCustomerByName.customerAddress}"
 					class="multiline"></td>
+				<td><a
+					th:href="@{/customerDetails/{customerId}(customerId=${customerHtml.foundedCustomerByName.id})}"
+					class="btn btn-info">View Details</a></td>
 			</tr>
 		</table>
+
+		<script th:inline="javascript">
+			function viewDetails(customerId) {
+				window.location.href = '/customerDetails/{customerId}'
+						+ customerId;
+			}
+		</script>
 
 		<div class="pagination">
 			<ul>

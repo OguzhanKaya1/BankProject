@@ -1,5 +1,7 @@
 package bank.project.business.concretes;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +15,10 @@ import bank.project.business.responses.GetCustomerByNameResponse;
 import bank.project.business.responses.GetCustomerBySurnameResponse;
 import bank.project.business.responses.GetCustomerByTc;
 import bank.project.business.responses.GetCustomerByTcResponse;
-import bank.project.business.responses.GetCustomerDetails;
+import bank.project.business.responses.GetCustomerDetailsResponse;
 import bank.project.core.utilities.mappers.ModelMapperService;
 import bank.project.dataAccess.abstracts.CustomerRepository;
+import bank.project.entities.concretes.Credit;
 import bank.project.entities.concretes.Customer;
 import lombok.AllArgsConstructor;
 
@@ -38,17 +41,6 @@ public class CustomerManager implements CustomerService {
 		Customer customer = this.customerRepository.findByCustomerTc(searchTc);
 		GetCustomerByTc response = this.modelMapperService.forResponses().map(customer, GetCustomerByTc.class);
 		return response;
-	}
-
-	@Override
-	public void updateCustomer(UpdateCustomerRequest updateCustomerRequest, String searchTc) {
-		// Burada eski customer tc'si alınmalı
-		Customer customer = this.customerRepository.findByCustomerTc(searchTc);
-		// Veritabanına Güncelleme Kaydı
-		Customer customerResponse = this.modelMapperService.forRequests().map(updateCustomerRequest, Customer.class);
-		customerResponse.setId(customer.getId());
-		this.customerRepository.save(customerResponse);
-
 	}
 
 	@Override
@@ -83,10 +75,21 @@ public class CustomerManager implements CustomerService {
 	}
 
 	@Override
-	public GetCustomerDetails getCustomerDetails(int id) {
+	public GetCustomerDetailsResponse customerDetailsResponse(int customerId) {
+		Customer customer = this.customerRepository.findById(customerId).orElseThrow();
+		List<Credit> credits = customer.getCredits();
+		return new GetCustomerDetailsResponse(customer, credits);
+	}
 
-		Customer customer = this.customerRepository.findCustomerWithCredits(id);
-		return new GetCustomerDetails(customer, customer.getCredits());
+	@Override
+	public void updateCustomer(UpdateCustomerRequest updateCustomerRequest) {
+		int customerId = updateCustomerRequest.getUpdateCustomer().getId();
+		List<Credit> customerCredits = updateCustomerRequest.getUpdateCustomer().getCredits();
+		Customer customer = this.modelMapperService.forRequests().map(updateCustomerRequest, Customer.class);
+		customer.setId(customerId);
+		customer.setCredits(customerCredits);
+		this.customerRepository.save(customer);
+
 	}
 
 }

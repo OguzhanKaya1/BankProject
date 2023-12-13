@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import bank.project.business.responses.GetAllCustomerResponseWithStatusCount;
 import bank.project.entities.concretes.Customer;
@@ -28,6 +27,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	Page<Customer> findBycustomerTcEquals(String customerTc, Pageable pageable);
 
-	@Query("Select c From Customer c LEFT JOIN FETCH c.credits WHERE c.id=id ")
-	Customer findCustomerWithCredits(@Param("id") int id);
 }

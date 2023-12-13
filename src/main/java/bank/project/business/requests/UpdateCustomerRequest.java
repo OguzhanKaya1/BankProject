@@ -1,5 +1,6 @@
 package bank.project.business.requests;
 
+import bank.project.entities.concretes.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCustomerRequest {
 
-	private String customerName;
-	private String customerSurname;
-	private String customerTc;
-	private String customerGender;
-	private String customerAddress;
-
+	private Customer updateCustomer;
 }

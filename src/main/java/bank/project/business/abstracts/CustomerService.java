@@ -10,15 +10,13 @@ import bank.project.business.responses.GetCustomerByNameResponse;
 import bank.project.business.responses.GetCustomerBySurnameResponse;
 import bank.project.business.responses.GetCustomerByTc;
 import bank.project.business.responses.GetCustomerByTcResponse;
-import bank.project.business.responses.GetCustomerDetails;
+import bank.project.business.responses.GetCustomerDetailsResponse;
 
 public interface CustomerService {
 
 	void add(CreateCustomerRequest createCustomerRequest);
 
 	GetCustomerByTc findByCustomerTc(String searchTc);
-
-	void updateCustomer(UpdateCustomerRequest updateCustomerRequest, String searchTc);
 
 	Page<GetAllCustomerResponseWithStatusCount> getAllCustomerWithStatusCount(int page, int size);
 
@@ -28,6 +26,8 @@ public interface CustomerService {
 
 	Page<GetCustomerByTcResponse> getCustomerByTc(String customerTc, Pageable pageable);
 
-	GetCustomerDetails getCustomerDetails(int id);
+	GetCustomerDetailsResponse customerDetailsResponse(int customerId);
+
+	void updateCustomer(UpdateCustomerRequest updateCustomerRequest);
 
 }
