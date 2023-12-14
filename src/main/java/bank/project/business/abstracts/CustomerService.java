@@ -30,4 +30,6 @@ public interface CustomerService {
 
 	void updateCustomer(UpdateCustomerRequest updateCustomerRequest);
 
+	void deleteCustomer(int customerId);
+
 }

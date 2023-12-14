@@ -2,102 +2,171 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Customer Details</title>
+<meta charset="UTF-8">
+<title>Customer Details</title>
+<style>
+#confirmationModal {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	border: 2px solid #ccc;
+	z-index: 1000;
+}
+</style>
 </head>
 
 <body>
 
-    <h2>Customer Details</h2>
+	<h2>Customer Details</h2>
 
-    <table border="1">
-        <caption>Müşteri Listesi</caption>
-        <tr>
-            <th>Id</th>
-            <th>İsim</th>
-            <th>Soy isim</th>
-            <th>TC</th>
-            <th>Cinsiyet</th>
-            <th>Adres</th>
-        </tr>
+	<table border="1">
+		<caption>Müşteri Listesi</caption>
+		<tr>
+			<th>Id</th>
+			<th>İsim</th>
+			<th>Soy isim</th>
+			<th>TC</th>
+			<th>Cinsiyet</th>
+			<th>Adres</th>
+		</tr>
 
-        <tr>
-            <td id="customerId" th:text="${customer.id}"></td>
-            <td th:text="${customer.customerName}"></td>
-            <td th:text="${customer.customerSurname}"></td>
-            <td th:text="${customer.customerTc}"></td>
-            <td th:text="${customer.customerGender}"></td>
-            <td th:text="${customer.customerAddress}"></td>
-        </tr>
-    </table>
+		<tr>
+			<td id="customerId" th:text="${customer.id}"></td>
+			<td th:text="${customer.customerName}"></td>
+			<td th:text="${customer.customerSurname}"></td>
+			<td th:text="${customer.customerTc}"></td>
+			<td th:text="${customer.customerGender}"></td>
+			<td th:text="${customer.customerAddress}"></td>
+		</tr>
+	</table>
 
-    <h2>Credit Details</h2>
-    <table border="1">
-        <caption>Krediler</caption>
-        <tr>
-            <th>Sıra</th>
-            <th>Kredi Tipi</th>
-            <th>Kredi İsmi</th>
-            <th>Çekilen Kredi Miktarı</th>
-            <th>Ödeme Periyodu</th>
-            <th>Kredi Faizi</th>
-            <th>Ödenecek Toplam Tutar</th>
-            <th>Kredi Durumu</th>
-        </tr>
+	<h2>Credit Details</h2>
+	<table border="1">
+		<caption>Krediler</caption>
+		<tr>
+			<th>Sıra</th>
+			<th>Kredi Tipi</th>
+			<th>Kredi İsmi</th>
+			<th>Çekilen Kredi Miktarı</th>
+			<th>Ödeme Periyodu</th>
+			<th>Kredi Faizi</th>
+			<th>Ödenecek Toplam Tutar</th>
+			<th>Kredi Durumu</th>
+		</tr>
 
-        <tr th:each="credit , iterStat : ${credits}">
-            <td th:text="${iterStat.index + 1}"></td>
-            <td th:text="${credit.creditType}"></td>
-            <td th:text="${credit.creditName}"></td>
-            <td th:text="${credit.creditAmount}"></td>
-            <td th:text="${credit.repaymentPeriod}"></td>
-            <td th:text="${credit.creditInterest}"></td>
-            <td th:text="${credit.creditTotalAmount}"></td>
-            <td th:text="${credit.creditStatus}"></td>
-        </tr>
-    </table>
-    <br>
-    <br>
-    <div id="updateForm" style="display: none;">
-        <form action="/updateCustomer" method="post" th:object="${updateCustomerRequest}">
-            <!-- hiddenCustomerId alanını ekledik -->
-            <input type="hidden" id="hiddenCustomerId" name="updateCustomerRequest.updateCustomer.id" th:field="*{updateCustomer.id}">
-            <label for="name">Müşteri İsmi:</label>
-            <input type="text" id="name" name="updateCustomerRequest.updateCustomer.customerName" th:field="*{updateCustomer.customerName}" required>
-            <label for="surname">Müşteri Soyadı:</label>
-            <input type="text" id="surname" name="updateCustomerRequest.updateCustomer.customerSurname" th:field="*{updateCustomer.customerSurname}" required>
-            <label for="tc">Müşteri Tc'si:</label>
-            <input type="text" id="tc" name="updateCustomerRequest.updateCustomer.customerTc" th:field="*{updateCustomer.customerTc}" required>
-            <label for="gender">Cinsiyet:</label>
-            <select id="gender" name="updateCustomerRequest.updateCustomer.customerGender" th:field="*{updateCustomer.customerGender}" required>
-                <option value="Male" th:selected="${customer.customerGender == 'Male'}">Erkek</option>
-                <option value="Female" th:selected="${customer.customerGender == 'Female'}">Kadın</option>
-            </select>
-            <label for="address">Adres:</label>
-            <input type="text" id="address" name="updateCustomerRequest.updateCustomer.customerAddress" th:field="*{updateCustomer.customerAddress}" required>
+		<tr th:each="credit , iterStat : ${credits}">
+			<td th:text="${iterStat.index + 1}"></td>
+			<td th:text="${credit.creditType}"></td>
+			<td th:text="${credit.creditName}"></td>
+			<td th:text="${credit.creditAmount}"></td>
+			<td th:text="${credit.repaymentPeriod}"></td>
+			<td th:text="${credit.creditInterest}"></td>
+			<td th:text="${credit.creditTotalAmount}"></td>
+			<td th:text="${credit.creditStatus}"></td>
+		</tr>
+	</table>
+	<br>
+	<br>
+	<div id="updateForm" style="display: none;">
+		<form action="/updateCustomer" method="post"
+			th:object="${updateCustomerRequest}">
+			<!-- hiddenCustomerId alanını ekledik -->
+			<input type="hidden" id="hiddenCustomerId"
+				name="updateCustomerRequest.updateCustomer.id"
+				th:field="*{updateCustomer.id}"> <label for="name">Müşteri
+				İsmi:</label> <input type="text" id="name"
+				name="updateCustomerRequest.updateCustomer.customerName"
+				th:field="*{updateCustomer.customerName}" required> <label
+				for="surname">Müşteri Soyadı:</label> <input type="text"
+				id="surname"
+				name="updateCustomerRequest.updateCustomer.customerSurname"
+				th:field="*{updateCustomer.customerSurname}" required> <label
+				for="tc">Müşteri Tc'si:</label> <input type="text" id="tc"
+				name="updateCustomerRequest.updateCustomer.customerTc"
+				th:field="*{updateCustomer.customerTc}" required> <label
+				for="gender">Cinsiyet:</label> <select id="gender"
+				name="updateCustomerRequest.updateCustomer.customerGender"
+				th:field="*{updateCustomer.customerGender}" required>
+				<option value="Male"
+					th:selected="${customer.customerGender == 'Male'}">Erkek</option>
+				<option value="Female"
+					th:selected="${customer.customerGender == 'Female'}">Kadın</option>
+			</select> <label for="address">Adres:</label> <input type="text" id="address"
+				name="updateCustomerRequest.updateCustomer.customerAddress"
+				th:field="*{updateCustomer.customerAddress}" required>
 
-            <button type="submit">Güncelle</button>
-        </form>
-    </div>
-    <button onclick="toggleFormVisibility()">Müşteriyi Güncelle</button>
+			<button type="submit">Güncelle</button>
+		</form>
+	</div>
+	<button onclick="toggleFormVisibility()">Müşteriyi Güncelle</button>
+	<br>
+	<br>
+	<button onclick="showConfirmationModal()">Müşteriyi Sil</button>
+	<div id="confirmationModal">
+		<p>Seçili müşteriyi silmek istediğinizden emin misiniz?</p>
+		<button onclick="deleteCustomer()">Evet</button>
+		<button onclick="hideConfirmationModal()">Hayır</button>
+	</div>
 
-    <script>
-        function toggleFormVisibility() {
-            var updateForm = document.getElementById("updateForm");
-            if (updateForm.style.display === "none") {
-                updateForm.style.display = "block";
-                updateHiddenFieldValue();
-            } else {
-                updateForm.style.display = "none";
-            }
-        }
+	<script>
+		function toggleFormVisibility() {
+			var updateForm = document.getElementById("updateForm");
+			if (updateForm.style.display === "none") {
+				updateForm.style.display = "block";
+				updateHiddenFieldValue();
+			} else {
+				updateForm.style.display = "none";
+			}
+		}
 
-        function updateHiddenFieldValue() {
-            var hiddenField = document.getElementById("hiddenCustomerId");
-            var customerId = document.getElementById("customerId").innerText.trim();
-            hiddenField.value = customerId;
-        }
-    </script>
+		function updateHiddenFieldValue() {
+			var hiddenField = document.getElementById("hiddenCustomerId");
+			var customerId = document.getElementById("customerId").innerText
+					.trim();
+			hiddenField.value = customerId;
+		}
+	</script>
+
+	<script>
+		function showConfirmationModal() {
+			var confirmationModal = document
+					.getElementById("confirmationModal");
+			confirmationModal.style.display = "block";
+		}
+
+		function hideConfirmationModal() {
+			var confirmationModal = document
+					.getElementById("confirmationModal");
+			confirmationModal.style.display = "none";
+		}
+
+		function deleteCustomer() {
+			var customerId = document.getElementById("customerId").innerText
+					.trim();
+			hideConfirmationModal();
+
+			// AJAX ile Java controller sınıfına müşteri ID'sini gönder
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/deleteCustomer?customerId=" + customerId, true);
+			xhr.setRequestHeader("Content-Type",
+					"application/json;charset=UTF-8");
+			xhr.send();
+
+			// İsteği dinle
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					// İşlem tamamlandıktan sonra yapılacak işlemleri buraya ekleyebilirsiniz.
+					// Örneğin, sayfayı yenilemek gibi.
+					// window.location.reload();
+					window.location.href = '/bankProjectCustomerPage.html';
+				}
+			};
+		}
+	</script>
 </body>
 
 </html>

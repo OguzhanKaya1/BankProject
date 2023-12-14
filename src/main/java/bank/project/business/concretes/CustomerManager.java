@@ -92,4 +92,11 @@ public class CustomerManager implements CustomerService {
 
 	}
 
+	@Override
+	public void deleteCustomer(int customerId) {
+
+		this.customerRepository.deleteById(customerId);
+
+	}
+
 }

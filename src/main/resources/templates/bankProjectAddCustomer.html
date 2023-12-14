@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="bankProjectAddCustomer.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="bankProjectAddCustomer.css">
 </head>
 <body>
-    <form action="register" method="post" class="elegant-aero" autocomplete="off">
-        <h1>Customer Information
-            <span>Please fill all the texts.</span>
-        </h1>
-        <label>
-            <span>Name :</span>
-            <input id="name" type="text" name="customerName" placeholder="Customer Name" />
-        </label>
+	<form action="register" method="post" class="elegant-aero"
+		autocomplete="off">
+		<h1>
+			Müşteri Bilgileri <span>Lütfen Tüm Alanları Doldurun</span>
+		</h1>
+		<label> <span>İsim :</span> <input id="name" type="text"
+			name="customerName" placeholder="İsim" />
+		</label> <label> <span>Soyisim :</span> <input id="surname"
+			type="text" name="customerSurname" placeholder="Soyisim" />
+		</label> <label> <span>Adres :</span> <input id="address"
+			type="text" name="customerAddress" placeholder="Adres" />
+		</label> <label> <span>TC :</span> <input id="surname" type="number"
+			name="customerTc" placeholder="TC Numarası" />
+		</label> <label> <span>Cinsiyet :</span><select name="customerGender"
+			required>
+				<option value="Male">Erkek</option>
+				<option value="Female">Kadın</option>
+		</select>
+		</label> <label> <span> </span> <input type="submit" class="button"
+			value="Kaydet" />
+		</label>
+	</form>
+	<br>
+	<br>
+	<a href="bankProjectCustomerPage.html" style="text-decoration: none;">
+		<div>
+			<span>Müşteri Ekranına Dön</span>
+		</div>
+	</a>
 
-        <label>
-            <span>Surname :</span>
-            <input id="surname" type="text" name="customerSurname" placeholder="Customer Surname" />
-        </label>
-        
-        <label>
-            <span>Address :</span>
-            <input id="address" type="text" name="customerAddress" placeholder="Customer Address" />
-        </label>
-
-        <label>
-            <span>ID :</span>
-            <input id="surname" type="number" name="customerTc" placeholder="Idendtity Number" />
-        </label>
-
-         <label>
-            <span>Gender :</span><select name="customerGender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            </select>
-        </label>    
-         <label>
-            <span> </span> 
-            <input type="submit" class="button" value="Send" /> 
-        </label>    
-    </form>
 </body>
 </html>

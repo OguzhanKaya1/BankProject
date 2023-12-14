@@ -163,6 +163,12 @@ public class CustomerController {
 		return "redirect:/customerDetails/" + updateCustomerRequest.getUpdateCustomer().getId();
 	}
 
+	@PostMapping("/deleteCustomer")
+	public void deleteCustomer(@RequestParam("customerId") int customerId) {
+		this.customerService.deleteCustomer(customerId);
+
+	}
+
 }
 
 //
