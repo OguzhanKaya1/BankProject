@@ -112,6 +112,10 @@
 		<button onclick="hideConfirmationModal()">Hayır</button>
 	</div>
 
+	<br>
+	<br>
+	<button onclick="goBack()">Müşteri Tablosuna Dön</button>
+
 	<script>
 		function toggleFormVisibility() {
 			var updateForm = document.getElementById("updateForm");
@@ -165,6 +169,10 @@
 					window.location.href = '/bankProjectCustomerPage.html';
 				}
 			};
+		}
+
+		function goBack() {
+			window.history.back();
 		}
 	</script>
 </body>

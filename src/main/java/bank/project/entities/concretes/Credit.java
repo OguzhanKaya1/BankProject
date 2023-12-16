@@ -32,15 +32,21 @@ public class Credit {
 	@Column(name = "creditAmount")
 	private int creditAmount;
 
+	@Column(name = "creditMonthlyRepayment")
+	private int creditMonthlyRepayment;
+
 	@Column(name = "repaymentPeriod")
 	private int repaymentPeriod;
 
 	@Column(name = "creditInterest")
 	private double creditInterest;
 
+	@Column(name = "creditTotalInterest")
+	private double creditTotalInterest;
+
 	@Column(name = "creditTotalAmount")
 	private double creditTotalAmount;
-	
+
 	@Column(name = "creditStatus")
 	private String creditStatus;
 
