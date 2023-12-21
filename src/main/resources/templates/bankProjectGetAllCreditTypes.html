@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>All Credit Types</title>
+<link rel="stylesheet" href="/bankProjectGetAllCreditTypes.css">
+</head>
+<body>
+	<h2>Kredi Özellikleri Görüntüleme Ekranı</h2>
+	<div th:each="getCreditType, iterStat : ${getAllCreditTypes}"
+		class="generalDiv">
+		<div class="elementDiv">
+			<p>
+				<span>Sıra : </span> <span th:text="${iterStat.index + 1}"></span>
+			</p>
+			<p>
+				<span>Kredi İsmi : </span> <span
+					th:text="${getCreditType.getCreditTypeResponse.creditName}"></span>
+			</p>
+			<p>
+				<span> Kullanılabilecek Min. Miktar : </span> <span
+					th:text="${getCreditType.getCreditTypeResponse.creditMinAmount}"></span>
+			</p>
+			<p>
+				<span>Kullanılabilecek Max. Miktar : </span> <span
+					th:text="${getCreditType.getCreditTypeResponse.creditMaxAmount}"></span>
+			</p>
+			<hr>
+		</div>
+
+		<div
+			th:each="interval, iterStat : ${getCreditType.getCreditTypeResponse.creditIntervals}"
+			class="elementDiv">
+			<p>
+				<span>Miktar Aralığı : </span> <span th:text="${iterStat.index + 1}"></span>
+			</p>
+			<p>
+				<span>Aralık Başlangıç Miktarı: </span> <span
+					th:text="${interval.creditStartAmount}"></span>
+			</p>
+			<p>
+				<span> Aralık Bitiş Miktarı: </span> <span
+					th:text="${interval.creditEndAmount}"></span>
+			</p>
+			<p>
+				<span> Faiz Oranı: </span> <span
+					th:text="${interval.creditInterestRate}"></span>
+			</p>
+			<hr>
+		</div>
+
+	</div>
+
+</body>
+</html>

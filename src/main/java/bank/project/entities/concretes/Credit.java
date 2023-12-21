@@ -23,12 +23,6 @@ public class Credit {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "creditType")
-	private int creditType;
-
-	@Column(name = "creditName")
-	private String creditName;
-
 	@Column(name = "creditAmount")
 	private int creditAmount;
 
@@ -37,9 +31,6 @@ public class Credit {
 
 	@Column(name = "repaymentPeriod")
 	private int repaymentPeriod;
-
-	@Column(name = "creditInterest")
-	private double creditInterest;
 
 	@Column(name = "creditTotalInterest")
 	private double creditTotalInterest;
@@ -53,5 +44,9 @@ public class Credit {
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;
+
+	@ManyToOne
+	@JoinColumn(name = "creditTypeId")
+	private CreditType creditType;
 
 }
